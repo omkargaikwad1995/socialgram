@@ -30,7 +30,7 @@ export async function createUserAccount(user: INewUser) {
             username: user.username,
             imageUrl: avatarUrl,
         })
-        return newAccount;
+        return newUser;
     }
     catch (error) {
         console.log(error);
@@ -43,23 +43,19 @@ export async function saveUserToDB(user: {
     email: string;
     name: string;
     imageUrl: URL;
-    username: string;
+    username?: string;
 
 }) {
     try {
-        const result = await databases.createDocument(
+        const newUser = await databases.createDocument(
             appwriteConfig.databaseId,
             appwriteConfig.userCollectionId,
             ID.unique(),
-            {
-                user
-            },
-            [
-
-            ]
+            user
+            
         );
-
-        console.log(result);
+        console.log(newUser);
+        return newUser;
     } catch (error) {
         console.log(error);
     }
@@ -74,8 +70,18 @@ export async function signInAccount(user: {
         console.log(session);
         return session;
     } catch (error) {
+        console.log("login session*****",error);
+    }
+}
+
+export async function signOutAccount(){
+    try{
+        const session = await account.deleteSession("current");
+        return session;
+    }catch(error){
         console.log(error);
     }
+
 }
 
 
@@ -94,6 +100,7 @@ export async function getCurrentUser() {
         return currentUser.documents[0];
     } catch (error) {
         console.log(error);
+        return null;
     }
 }
 
