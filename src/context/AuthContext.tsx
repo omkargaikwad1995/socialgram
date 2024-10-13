@@ -24,14 +24,14 @@ export const INITIAL_STATE = {
 
 const AuthContext = createContext<IContextType>(INITIAL_STATE);
 
-const AuthProvider = ({ children}: { children: React.ReactNode }) => {
+const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<IUser>(INITIAL_STATE.user)
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const Navigate = useNavigate();
 
 
-    
+
 
     const checkAuthUser = async () => {
         try {
@@ -55,15 +55,15 @@ const AuthProvider = ({ children}: { children: React.ReactNode }) => {
             setIsLoading(false);
         }
     };
-    
-    useEffect(()=>{
-        if(
-            localStorage.getItem('cookieFallback')=== '[]'
-            // localStorage.getItem('cookieFallback') === null
+
+    useEffect(() => {
+        if (
+            localStorage.getItem('cookieFallback') === '[]' ||
+            localStorage.getItem('cookieFallback') === null
         )
-        Navigate('/signin')
+            Navigate('/signin')
         checkAuthUser();
-    },[])
+    }, [])
 
     const value = {
         user,
@@ -83,7 +83,7 @@ const AuthProvider = ({ children}: { children: React.ReactNode }) => {
 
 export default AuthProvider;
 
-export const useUserContext=()=>useContext(AuthContext);
+export const useUserContext = () => useContext(AuthContext);
 // function getCurrentUser() {
 //     throw new Error('Function not implemented.')
 // }

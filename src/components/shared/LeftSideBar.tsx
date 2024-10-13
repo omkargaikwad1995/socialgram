@@ -2,7 +2,7 @@ import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import { INavLink } from "@/types";
 import { sidebarLinks } from "@/constants";
-import  Loader  from "@/components/shared/Loader";
+import Loader from "@/components/shared/Loader";
 import { Button } from "@/components/ui/button";
 import { useSignOutAccount } from "@/lib/react-query/queriesAndMutations";
 import { useUserContext, INITIAL_USER } from "@/context/AuthContext";
@@ -29,7 +29,7 @@ const LeftSidebar = () => {
       <div className="flex flex-col gap-11">
         <Link to="/" className="flex gap-3 items-center">
           <img
-            src="/assets/images/logo.svg"
+            src="/assets/icons/GMG-Logo-W.png"
             alt="logo"
             width={170}
             height={36}
@@ -43,7 +43,7 @@ const LeftSidebar = () => {
         ) : (
           <Link to={`/profile/${user.id}`} className="flex gap-3 items-center">
             <img
-              src={user.imageUrl || "/assets/icons/profile-placeholder.svg"}
+              src={"assets/icons/people.svg"}
               alt="profile"
               className="h-14 w-14 rounded-full"
             />
@@ -61,18 +61,16 @@ const LeftSidebar = () => {
             return (
               <li
                 key={link.label}
-                className={`leftsidebar-link group ${
-                  isActive && "bg-primary-500"
-                }`}>
+                className={`leftsidebar-link group ${isActive && "bg-primary-500"
+                  }`}>
                 <NavLink
                   to={link.route}
                   className="flex gap-4 items-center p-4">
                   <img
                     src={link.imgURL}
                     alt={link.label}
-                    className={`group-hover:invert-white ${
-                      isActive && "invert-white"
-                    }`}
+                    className={`group-hover:invert-white ${isActive && "invert-white"
+                      }`}
                   />
                   {link.label}
                 </NavLink>

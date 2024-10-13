@@ -6,10 +6,10 @@ import {
   Form, FormControl, FormField, FormItem, FormLabel, FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { SignupFormSchema } from "@/lib/validation"
+import { SignupValidation } from "@/lib/validation"
 import Loader from "@/components/shared/Loader"
 import { Link } from "react-router-dom"
-import { createUserAccount } from "@/lib/appwrite/api"
+// import { createUserAccount } from "@/lib/appwrite/api"
 import { useToast } from "@/components/ui/use-toast"
 import { useCreateUserAccount, useSignInAccount } from "@/lib/react-query/queriesAndMutations"
 import { useUserContext } from "@/context/AuthContext"
@@ -18,14 +18,14 @@ import { useNavigate } from "react-router-dom"
 
 const SignUpForm = () => {
   const { toast } = useToast();
-  const{checkAuthUser, isLoading:isUserLoading}= useUserContext();
+  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
   const Navigate = useNavigate();
   const { mutateAsync: createUserAccount, isPending: isCreatingAccount } = useCreateUserAccount();
   const { mutateAsync: signInAccount, isPending: isSigningIn } = useSignInAccount();
 
   // 1. Define your form.
-  const form = useForm<z.infer<typeof SignupFormSchema>>({
-    resolver: zodResolver(SignupFormSchema),
+  const form = useForm<z.infer<typeof SignupValidation>>({
+    resolver: zodResolver(SignupValidation),
     defaultValues: {
       name: "",
       username: "",
@@ -35,7 +35,7 @@ const SignUpForm = () => {
   })
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof SignupFormSchema>) {
+  async function onSubmit(values: z.infer<typeof SignupValidation>) {
     console.log(values);
     const newUser = await createUserAccount(values);
     console.log(newUser);
@@ -54,11 +54,11 @@ const SignUpForm = () => {
     }
 
     const isLoggedIn = await checkAuthUser();
-    if(isLoggedIn){
+    if (isLoggedIn) {
       form.reset();
       Navigate('/')
-    }else{
-      toast({title:'Signed up failed. Please try again later'})
+    } else {
+      toast({ title: 'Signed up failed. Please try again later' })
     }
   }
 
@@ -67,7 +67,7 @@ const SignUpForm = () => {
   return (
     <Form {...form}>
       <div className="sm:w-420 flex-col flex-center">
-        <img src="/assets/images/logo.svg" />
+        <img src="/assets/icons/GMG-Logo-W.png" />
         <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">Create a new account</h2>
         <p className="text-light-3 small-medium md:base-regular mt-2">To use socialgram please enter your details</p>
 
